@@ -6,6 +6,6 @@ package CoffeeShop;
 public class CoffeeShopManager {
 
     public static void main(String[] args) {
-        new CoffeeShopGUI().sayUI();
+        new CoffeeShopGUI().showGUI();
     }
 }

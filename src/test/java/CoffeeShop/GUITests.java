@@ -16,7 +16,7 @@ public class GUITests {
                 isCI = true;
             }
         } catch (NullPointerException e){
-            
+            e.printStackTrace();
         }
     }
 

@@ -4,14 +4,19 @@ class MenuItem {
 
     private String category;
     private String item;
-    private Float cost;
-    private Integer id;
+    private double cost;
+    private String id;
 
-    MenuItem(String category, String item, Float cost, Integer id  ) {
-        this.category = category;
+    MenuItem(String category, String item, double cost, String id  ) {
+        if(category.equals("Starters")||category.equals("Main Course")||category.equals("Desserts")||category.equals("Drinks"))
+            this.category = category;
+        else
+            throw new InvalidCategoryException("Invalid Category");
         this.item = item;
-        this.cost = cost;
-        this.id = id;
+        if(cost>0)
+            this.cost = cost;
+        if(id.length()>0 && id.length() <6)
+            this.id = id;
     }
 
     public String getCategory(){
@@ -30,20 +35,24 @@ class MenuItem {
         this.item = item;
     }
 
-    public Float getCost(){
+    public double getCost(){
         return this.cost;
     }
 
-    public void setCost(Float cost){
+    public void setCost(double cost){
         this.cost = cost;
     }
 
-    public Integer getId(){
+    public String getId(){
         return this.id;
     }
 
-    public void setId(Integer id){
+    public void setId(String id){
         this.id = id;
+    }
+
+    public String toString(){
+        return "Category : "+ this.category + " Item : " + this.item + " Cost : " + this.cost + " Id : " + this.id + "\n";
     }
 
     public void Dessert(String category, String item, Float cost, Integer id) {

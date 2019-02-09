@@ -5,18 +5,18 @@ import org.junit.Test;
 // import static org.junit.Assert.*;
 
 
-public class CoffeeShopGUITest extends GUITests {
-
-    public CoffeeShopGUITest(){
-        super();
-    }
+public class CoffeeShopGUITest {
 
     @Test 
     public void testInstanceCreatedSuccessfully() {
 
         // We are fine as long as this instantiates
-        if(!isCI){
+        try{
             new CoffeeShopGUI();
+        } catch(java.awt.HeadlessException e) {
+            e.printStackTrace();
         }
+
     }
+    
 }

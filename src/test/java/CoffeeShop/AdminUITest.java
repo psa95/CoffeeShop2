@@ -5,18 +5,16 @@ import org.junit.Test;
 //import static org.junit.Assert.*;
 
 
-public class AdminUITest extends GUITests {
-
-    public AdminUITest(){
-        super();
-    }
+public class AdminUITest {
 
     @Test 
     public void testInstanceCreatedSuccessfully() {
         
         // We are fine as long as this instantiates
-        if(!isCI){
+        try{
             new AdminUI();
+        } catch(java.awt.HeadlessException e) {
+            e.printStackTrace();
         }
     }
 }

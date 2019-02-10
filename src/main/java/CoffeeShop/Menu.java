@@ -16,7 +16,7 @@ class Menu {
     }
     
     public boolean addMenuItem(MenuItem i) {   
-           int id = i.getId();  
+           String id = i.getId();
            MenuItem inList = this.searchID(id);  
                     if (inList == null) {   
                     menuItem.add(i);
@@ -25,10 +25,10 @@ class Menu {
                     return false;
           }
     
-    public MenuItem searchID(int number){     
+    public MenuItem searchID(String number){
               for (MenuItem i : menuItem)
               {       
-                  if (i.getId()==number){
+                  if (i.getId().equals(number)){
                       return i;  }
                   
               }      return null;    
@@ -58,7 +58,7 @@ class Menu {
 	}
     
     public static void main(String[] args) {
-        MenuItem menuItem = new MenuItem("Category","item000",23.50f,1234);
+        MenuItem menuItem = new MenuItem("Category","item000",23.50f,"1234");
         //System.out.println(menuItem.toString());
         //System.out.println(menuItem.getCategory()+","+menuItem.getItem()+","+menuItem.getCost()+","+menuItem.getId());
         String report = menuItem.getCategory()+","+menuItem.getItem()+","+menuItem.getCost()+","+menuItem.getId();

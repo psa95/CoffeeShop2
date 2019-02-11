@@ -1,6 +1,7 @@
 
 package CoffeeShop;
 
+
 public class CustomerUI extends javax.swing.JFrame {
 
     /**
@@ -19,28 +20,35 @@ public class CustomerUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        makeOrder = new javax.swing.JButton();
+        customerUIScrollPane = new javax.swing.JScrollPane();
+        menuItems = new javax.swing.JTable();
+        discountLabel = new javax.swing.JLabel();
+        customerMenuSearchLabel = new javax.swing.JLabel();
+        customerMenuSearch = new javax.swing.JTextField();
+        categoriesLabel = new javax.swing.JLabel();
+        categoryStarters = new javax.swing.JRadioButton();
+        categoryMainCourse = new javax.swing.JRadioButton();
+        categoryDessert = new javax.swing.JRadioButton();
+        categoryDrinks = new javax.swing.JRadioButton();
+        categoryOther = new javax.swing.JRadioButton();
+        totalCostLabel = new javax.swing.JLabel();
+        discount = new javax.swing.JTextField();
+        totalCost = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Make Order");
+        setTitle("Menu");
+        setName("CustomerUI"); // NOI18N
+        setResizable(false);
 
-        jLabel1.setText("Menu");
-
-        jButton1.setText("Order");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        makeOrder.setText("Order");
+        makeOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                makeOrderActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        menuItems.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -50,65 +58,136 @@ public class CustomerUI extends javax.swing.JFrame {
             new String [] {
                 "Category", "Description", "Price Per Item", "How Many Wanted"
             }
-        ));
-        jScrollPane2.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true
+            };
 
-        jLabel2.setText("Total");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        menuItems.setColumnSelectionAllowed(true);
+        menuItems.getTableHeader().setReorderingAllowed(false);
+        customerUIScrollPane.setViewportView(menuItems);
+        menuItems.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        if (menuItems.getColumnModel().getColumnCount() > 0) {
+            menuItems.getColumnModel().getColumn(0).setResizable(false);
+            menuItems.getColumnModel().getColumn(1).setResizable(false);
+            menuItems.getColumnModel().getColumn(2).setResizable(false);
+            menuItems.getColumnModel().getColumn(3).setResizable(false);
+        }
 
-        jLabel4.setText("Search");
+        discountLabel.setText("Discount");
+
+        customerMenuSearchLabel.setText("Search");
+
+        categoriesLabel.setText("Categories");
+
+        categoryStarters.setText("Starters");
+
+        categoryMainCourse.setText("Main Course");
+
+        categoryDessert.setText("Dessert");
+
+        categoryDrinks.setText("Drinks");
+
+        categoryOther.setText("Other");
+
+        totalCostLabel.setText("Total");
+
+        discount.setText("0");
+        discount.setEnabled(false);
+
+        discount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                discountActionPerformed(evt);
+            }
+        });
+
+        totalCost.setText("0");
+        totalCost.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+                    .addComponent(customerUIScrollPane)
+                    .addComponent(makeOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(customerMenuSearchLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(customerMenuSearch))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(63, 63, 63)
+                        .addComponent(totalCost))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(discountLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1)))
+                        .addComponent(discount))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(totalCostLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(categoriesLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(categoryStarters)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(categoryMainCourse)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(categoryDessert)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(categoryDrinks)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(categoryOther)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(jLabel1)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(customerMenuSearch)
+                    .addComponent(customerMenuSearchLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(categoryStarters)
+                    .addComponent(categoryMainCourse)
+                    .addComponent(categoryDessert)
+                    .addComponent(categoryDrinks)
+                    .addComponent(categoryOther)
+                    .addComponent(categoriesLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(customerUIScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(discountLabel)
+                    .addComponent(discount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(totalCostLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(totalCost, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(makeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void makeOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeOrderActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_makeOrderActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void discountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discountActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_discountActionPerformed
+
+
     public void showGUI() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -143,13 +222,20 @@ public class CustomerUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel categoriesLabel;
+    private javax.swing.JRadioButton categoryDessert;
+    private javax.swing.JRadioButton categoryDrinks;
+    private javax.swing.JRadioButton categoryMainCourse;
+    private javax.swing.JRadioButton categoryOther;
+    private javax.swing.JRadioButton categoryStarters;
+    private javax.swing.JTextField customerMenuSearch;
+    private javax.swing.JLabel customerMenuSearchLabel;
+    private javax.swing.JScrollPane customerUIScrollPane;
+    private javax.swing.JTextField discount;
+    private javax.swing.JLabel discountLabel;
+    private javax.swing.JButton makeOrder;
+    private javax.swing.JTable menuItems;
+    private javax.swing.JTextField totalCost;
+    private javax.swing.JLabel totalCostLabel;
     // End of variables declaration//GEN-END:variables
 }

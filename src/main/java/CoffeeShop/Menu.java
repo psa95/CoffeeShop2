@@ -1,10 +1,12 @@
 
 package CoffeeShop;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 class Menu {
     
@@ -16,27 +18,55 @@ class Menu {
     }
     
     public boolean addMenuItem(MenuItem i) {   
-           int id = i.getId();  
+           String id = i.getId();
            MenuItem inList = this.searchID(id);  
                     if (inList == null) {   
                     menuItem.add(i);
                       return true;  
                     }  
                     return false;
-          }
+           }
     
-    public MenuItem searchID(int number){     
+    public MenuItem searchID(String id){
               for (MenuItem i : menuItem)
               {       
-                  if (i.getId()==number){
-                      return i;  }
+                  if (i.getId().equals(id)){
+                      return i;
+                  }
                   
               }      return null;    
-          }  
+          }
     
-    public void addMenuItems(MenuItem i){
-        menuItem.add(i);
-           }
+    public MenuItem searchItem(String item){
+              for (MenuItem i : menuItem)
+              {       
+                  if (i.getItem().equals(item)){
+                      return i;
+                  }
+                  
+              }      return null;    
+          }
+    
+    public String searchCategory(String category){
+            String report = "";
+              for (MenuItem i : menuItem)
+              {       
+                  if (i.getCategory().equals(category)){
+                      report += i;
+                  }
+                  
+              }      return report;    
+          }
+    
+    public String listAllNames()
+	{
+            String separator = System.getProperty("line.separator");
+		String list = "MENU"+separator;
+                for (MenuItem i : menuItem){
+			list += i.toString();	
+		}
+		return list;
+	}
     
     public static void writeToFile(String filename, String Menu) {
         FileWriter fw;
@@ -57,12 +87,33 @@ class Menu {
 		 }
 	}
     
-    public static void main(String[] args) {
-        MenuItem menuItem = new MenuItem("Category","item000",23.50f,1234);
-        //System.out.println(menuItem.toString());
-        //System.out.println(menuItem.getCategory()+","+menuItem.getItem()+","+menuItem.getCost()+","+menuItem.getId());
-        String report = menuItem.getCategory()+","+menuItem.getItem()+","+menuItem.getCost()+","+menuItem.getId();
-        System.out.println(report);
-        writeToFile("Menu.txt", report);
-    }
+    private void processMenuLine(String line) {
+        
+			String parts [] = line.split(",");
+                        String category = parts[0];
+                        String item = parts[1];
+                        double cost = Double.parseDouble(parts[2]);
+                        String id = parts[3];
+                        
+                        MenuItem menuItem = new MenuItem(category,item,cost,id);
+                        this.addMenuItem(menuItem);
+
+	}
+    
+    public void readMenuFile(String filename) {
+            try {
+                File f = new File(filename);
+                Scanner scanner = new Scanner(f);    
+                while (scanner.hasNextLine()) { 
+                    String inputLine = scanner.nextLine(); 
+                    if (inputLine.length() != 0) {
+                    processMenuLine(inputLine);     
+                    }    
+                }   
+            } 
+            catch (FileNotFoundException fnf){     
+                System.out.println(filename + " not found ");     
+                System.exit(0);    
+            }  
+        }
 }

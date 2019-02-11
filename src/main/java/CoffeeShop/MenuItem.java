@@ -15,7 +15,7 @@ class MenuItem {
         this.item = item;
         if(cost>0)
             this.cost = cost;
-        if(id.length()>0 && id.length() <6)
+        if(id.length()>0 && id.length() <7)
             this.id = id;
     }
 
@@ -52,7 +52,7 @@ class MenuItem {
     }
 
     public String toString(){
-        return "Category : "+ this.category + " Item : " + this.item + " Cost : " + this.cost + " Id : " + this.id + "\n";
+        return "Category: "+ this.category + "\tItem: " + this.item + "\t\tCost: " + this.cost + "\tId: " + this.id + "\n";
     }
 
     public void Dessert(String category, String item, Float cost, Integer id) {

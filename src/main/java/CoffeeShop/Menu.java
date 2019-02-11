@@ -27,21 +27,43 @@ class Menu {
                     return false;
            }
     
-    public MenuItem searchID(String number){
+    public MenuItem searchID(String id){
               for (MenuItem i : menuItem)
               {       
-                  if (i.getId().equals(number)){
-                      return i;  }
+                  if (i.getId().equals(id)){
+                      return i;
+                  }
                   
               }      return null;    
+          }
+    
+    public MenuItem searchItem(String item){
+              for (MenuItem i : menuItem)
+              {       
+                  if (i.getItem().equals(item)){
+                      return i;
+                  }
+                  
+              }      return null;    
+          }
+    
+    public String searchCategory(String category){
+            String report = "";
+              for (MenuItem i : menuItem)
+              {       
+                  if (i.getCategory().equals(category)){
+                      report += i;
+                  }
+                  
+              }      return report;    
           }
     
     public String listAllNames()
 	{
             String separator = System.getProperty("line.separator");
 		String list = "MENU"+separator;
-		for (MenuItem m : menuItem){
-			list += m.toString();	
+                for (MenuItem i : menuItem){
+			list += i.toString();	
 		}
 		return list;
 	}

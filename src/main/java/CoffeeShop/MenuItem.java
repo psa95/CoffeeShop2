@@ -8,7 +8,7 @@ class MenuItem {
     private String id;
 
     MenuItem(String category, String item, double cost, String id  ) {
-        if(category.equals("Starters")||category.equals("Main Course")||category.equals("Desserts")||category.equals("Drinks"))
+        if(category.equals("Starters")||category.equals("Main Course")||category.equals("Desserts")||category.equals("Drinks")||category.equals("Other"))
             this.category = category;
         else
             throw new InvalidCategoryException("Invalid Category");

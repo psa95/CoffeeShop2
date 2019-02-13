@@ -81,6 +81,7 @@ public class AdminUI extends javax.swing.JFrame {
         }
 
         deleteSelectedItem.setText("Delete");
+        deleteSelectedItem.setEnabled(false);
         deleteSelectedItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteSelectedItemActionPerformed(evt);
@@ -110,8 +111,10 @@ public class AdminUI extends javax.swing.JFrame {
         });
 
         addMenuItem.setText("Add");
+        addMenuItem.setEnabled(false);
 
         menuSaveChanges.setText("Save");
+        menuSaveChanges.setEnabled(false);
 
         javax.swing.GroupLayout menuTabLayout = new javax.swing.GroupLayout(menuTab);
         menuTab.setLayout(menuTabLayout);
@@ -210,9 +213,11 @@ public class AdminUI extends javax.swing.JFrame {
             customers.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        addCustomer.setText("Edit");
+        addCustomer.setText("Add");
+        addCustomer.setEnabled(false);
 
-        customerSaveChanges.setText("Add");
+        customerSaveChanges.setText("Save");
+        customerSaveChanges.setEnabled(false);
 
         viewCustomerOrderHistory.setText("View Order History");
 

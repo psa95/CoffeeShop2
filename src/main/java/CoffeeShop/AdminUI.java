@@ -115,6 +115,11 @@ public class AdminUI extends javax.swing.JFrame {
 
         menuSaveChanges.setText("Save");
         menuSaveChanges.setEnabled(false);
+        menuSaveChanges.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSaveChangesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout menuTabLayout = new javax.swing.GroupLayout(menuTab);
         menuTab.setLayout(menuTabLayout);
@@ -154,20 +159,18 @@ public class AdminUI extends javax.swing.JFrame {
         menuTabLayout.setVerticalGroup(
             menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuTabLayout.createSequentialGroup()
-                .addGroup(menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(categoriesLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(menuTabLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(menuSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(menuSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(categoryMainCourse)
-                            .addComponent(categoryStarters)
-                            .addComponent(categoryDessert)
-                            .addComponent(categoryDrinks)
-                            .addComponent(categoryOthers))))
+                .addContainerGap()
+                .addGroup(menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(menuSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(menuSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(categoryMainCourse)
+                    .addComponent(categoryStarters)
+                    .addComponent(categoryDessert)
+                    .addComponent(categoryDrinks)
+                    .addComponent(categoryOthers)
+                    .addComponent(categoriesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(menuScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -213,10 +216,10 @@ public class AdminUI extends javax.swing.JFrame {
             customers.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        addCustomer.setText("Add");
+        addCustomer.setText("Edit");
         addCustomer.setEnabled(false);
 
-        customerSaveChanges.setText("Save");
+        customerSaveChanges.setText("Add");
         customerSaveChanges.setEnabled(false);
 
         viewCustomerOrderHistory.setText("View Order History");
@@ -297,7 +300,13 @@ public class AdminUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_categoryOthersActionPerformed
 
+    private void menuSaveChangesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSaveChangesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuSaveChangesActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
     public void showGUI() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

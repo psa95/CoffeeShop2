@@ -1,6 +1,9 @@
 
 package CoffeeShop;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 
 public class AdminUI extends javax.swing.JFrame {
 
@@ -44,7 +47,18 @@ public class AdminUI extends javax.swing.JFrame {
         customerSaveChanges = new javax.swing.JButton();
         viewCustomerOrderHistory = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        
+        // Now we open the report
+        addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e){
+                new ReportUI().showGUI();
+            }
+
+        });
+
         setTitle("Admin");
         setName("AdminUI"); // NOI18N
         setResizable(false);

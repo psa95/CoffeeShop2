@@ -1,6 +1,10 @@
 
 package CoffeeShop;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.WindowConstants;
 
 public class CustomerUI extends javax.swing.JFrame {
 
@@ -38,7 +42,19 @@ public class CustomerUI extends javax.swing.JFrame {
         customerIDLabel = new javax.swing.JLabel();
         customerIDSelector = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        // Now we open the report
+        addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e){
+                new ReportUI().showGUI();
+            }
+
+        });
+
         setTitle("Menu");
         setName("CustomerUI"); // NOI18N
         setResizable(false);

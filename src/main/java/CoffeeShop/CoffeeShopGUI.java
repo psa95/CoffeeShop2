@@ -25,17 +25,20 @@ public class CoffeeShopGUI extends javax.swing.JFrame {
         Admin = new javax.swing.JButton();
         Customer = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        // Now we open the report
-        addWindowListener(new WindowAdapter() {
+        // setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
-            @Override
-            public void windowClosing(WindowEvent e){
-                new ReportUI().showGUI();
-            }
+        // // Now we open the report
+        // addWindowListener(new WindowAdapter() {
 
-        });
+        //     @Override
+        //     public void windowClosing(WindowEvent e){
+        //         new ReportUI().showGUI();
+        //     }
+
+        // });
+        
 
         setTitle("Coffee Shop Manager");
         setName("CoffeeShopGUI"); // NOI18N
@@ -82,11 +85,13 @@ public class CoffeeShopGUI extends javax.swing.JFrame {
     private void AdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminActionPerformed
         // TODO add your handling code here:
         new AdminUI().showGUI();
+        setVisible(false);
     }//GEN-LAST:event_AdminActionPerformed
 
     private void CustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomerActionPerformed
         // TODO add your handling code here:
         new CustomerUI().showGUI();
+        setVisible(false);
     }//GEN-LAST:event_CustomerActionPerformed
 
     /**

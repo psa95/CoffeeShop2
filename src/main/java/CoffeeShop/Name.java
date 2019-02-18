@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package CW2.Classes;
+package CoffeeShop;
 
 /**
  *
@@ -43,9 +43,9 @@ public class Name {
    return firstName + " " + lastName;
    }
    
-   //Customers Name and 
-   public String getDetails(){
-   return "Id: " +Id+ " , " +lastName + " " + firstName + " ";
-   }
+   
+   public String toString(){
+       return "Id: " +Id+ " , " +lastName + " " + firstName + " " + "\n";}
   
 } 
+

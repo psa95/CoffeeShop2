@@ -51,6 +51,7 @@ public class CustomerUI extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e){
                 new ReportUI().showGUI();
+                setVisible(false);
             }
 
         });

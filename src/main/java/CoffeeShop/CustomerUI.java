@@ -1,18 +1,93 @@
 
 package CoffeeShop;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-import javax.swing.WindowConstants;
 
 public class CustomerUI extends javax.swing.JFrame {
 
+    Menu menu;
+    ArrayList<MenuItem> list;
+    private double cost;
+    DefaultTableModel model;
+    Date date;
+    DateFormat df;
+    OrderList orderList;
+    Customer customer;
+    MenuItem menuItem;
+    Name name;
     /**
      * Creates new form Customer
      */
     public CustomerUI() {
         initComponents();
+        menu = new Menu();
+        menu.readMenuFile("menu.csv");
+        customer = new Customer();
+        customer.readCustomerFile("customer list.csv");
+        model = (DefaultTableModel) menuItems.getModel();
+        ButtonGroup group = new ButtonGroup();
+        orderList = new OrderList();
+        date = new Date();
+        df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        group.add(categoryDessert);
+        group.add(categoryDrinks);
+        group.add(categoryMainCourse);
+        group.add(categoryStarters);
+        resetDiscount();
+        try {
+            clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
+        } catch (FileNotFoundException ex) {}
+    }
+    
+    private void resetDiscount(){
+        cost = 0;
+    }
+    
+    public void populateTable(String category)
+    {
+        model.setRowCount(0);
+        list = menu.searchCategory(category);
+        Object rowData[] = new Object[4];
+        list.stream().map((list1) -> {
+            rowData[0] = list1.getCategory();
+            return list1;
+        }).map((list1) -> {
+            rowData[1] = list1.getItem();
+            return list1;
+        }).map((list1) -> {
+            rowData[2] = list1.getCost();
+            return list1;
+        }).map((list1) -> {
+            rowData[3] = list1.getId();
+            return list1;
+        }).forEach((_item) -> {
+            model.addRow(rowData);
+        });      
+    }
+    
+    public void clearTable(){
+        if(!list.isEmpty()){
+        list.clear();
+        }
     }
 
     /**
@@ -35,27 +110,19 @@ public class CustomerUI extends javax.swing.JFrame {
         categoryMainCourse = new javax.swing.JRadioButton();
         categoryDessert = new javax.swing.JRadioButton();
         categoryDrinks = new javax.swing.JRadioButton();
-        categoryOther = new javax.swing.JRadioButton();
         totalCostLabel = new javax.swing.JLabel();
         discount = new javax.swing.JTextField();
         totalCost = new javax.swing.JTextField();
-        customerIDLabel = new javax.swing.JLabel();
-        customerIDSelector = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        displayOrder = new javax.swing.JTextArea();
+        search = new javax.swing.JButton();
+        info = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        customerIDField = new javax.swing.JTextField();
+        searchCustomerID = new javax.swing.JButton();
+        customerLabel = new javax.swing.JLabel();
 
-        //setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        // Now we open the report
-        addWindowListener(new WindowAdapter() {
-
-            @Override
-            public void windowClosing(WindowEvent e){
-                new ReportUI().showGUI();
-                setVisible(false);
-            }
-
-        });
-
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
         setName("CustomerUI"); // NOI18N
         setResizable(false);
@@ -75,11 +142,11 @@ public class CustomerUI extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Category", "Description", "Price Per Item", "How Many Wanted"
+                "Category", "Description", "Price Per Item", "ID"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -88,6 +155,11 @@ public class CustomerUI extends javax.swing.JFrame {
         });
         menuItems.setColumnSelectionAllowed(true);
         menuItems.getTableHeader().setReorderingAllowed(false);
+        menuItems.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuItemsMouseClicked(evt);
+            }
+        });
         customerUIScrollPane.setViewportView(menuItems);
         menuItems.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         if (menuItems.getColumnModel().getColumnCount() > 0) {
@@ -99,13 +171,7 @@ public class CustomerUI extends javax.swing.JFrame {
 
         discountLabel.setText("Discount");
 
-        customerMenuSearchLabel.setText("Search");
-
-        customerMenuSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                customerMenuSearchActionPerformed(evt);
-            }
-        });
+        customerMenuSearchLabel.setText("Search item");
 
         categoriesLabel.setText("Categories");
 
@@ -137,58 +203,51 @@ public class CustomerUI extends javax.swing.JFrame {
             }
         });
 
-        categoryOther.setText("Other");
-        categoryOther.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoryOtherActionPerformed(evt);
-            }
-        });
-
         totalCostLabel.setText("Total");
 
+        discount.setEditable(false);
         discount.setText("0");
-        discount.setEnabled(false);
-        discount.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                discountActionPerformed(evt);
-            }
-        });
 
+        totalCost.setEditable(false);
         totalCost.setText("0");
-        totalCost.setEnabled(false);
 
-        customerIDLabel.setText("Customer ID");
+        displayOrder.setEditable(false);
+        displayOrder.setColumns(20);
+        displayOrder.setRows(5);
+        jScrollPane1.setViewportView(displayOrder);
 
-        customerIDSelector.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        customerIDSelector.addActionListener(new java.awt.event.ActionListener() {
+        search.setText("Search");
+        search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                customerIDSelectorActionPerformed(evt);
+                searchActionPerformed(evt);
             }
         });
+
+        info.setText("Select category and select order ID");
+
+        jLabel1.setText("Customer ID");
+
+        searchCustomerID.setText("Search");
+        searchCustomerID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchCustomerIDActionPerformed(evt);
+            }
+        });
+
+        customerLabel.setText("Welcome");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(makeOrder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(customerUIScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(customerMenuSearchLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(customerMenuSearch))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(totalCostLabel)
-                            .addComponent(discountLabel))
-                        .addGap(55, 55, 55)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(totalCost)
-                            .addComponent(discount)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(makeOrder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(customerUIScrollPane, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(totalCostLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(categoriesLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -198,14 +257,30 @@ public class CustomerUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(categoryDessert)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(categoryDrinks)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(categoryOther))
+                                .addComponent(categoryDrinks))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(customerIDLabel)
-                                .addGap(33, 33, 33)
-                                .addComponent(customerIDSelector, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(customerMenuSearchLabel)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(customerMenuSearch)
+                                    .addComponent(customerIDField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(search, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(searchCustomerID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                            .addComponent(customerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(discountLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(totalCost, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(discount)))
+                    .addComponent(info, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -213,32 +288,41 @@ public class CustomerUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(customerMenuSearch)
-                    .addComponent(customerMenuSearchLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(customerMenuSearch)
+                        .addComponent(search)
+                        .addComponent(customerLabel))
+                    .addComponent(customerMenuSearchLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(categoryStarters)
-                    .addComponent(categoryMainCourse)
-                    .addComponent(categoryDessert)
-                    .addComponent(categoryDrinks)
-                    .addComponent(categoryOther)
-                    .addComponent(categoriesLabel))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(customerIDField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchCustomerID))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(categoryStarters)
+                            .addComponent(categoryMainCourse)
+                            .addComponent(categoryDessert)
+                            .addComponent(categoryDrinks)
+                            .addComponent(categoriesLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(customerUIScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(customerUIScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(discountLabel)
                     .addComponent(discount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(totalCostLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(totalCost, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(totalCost, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(makeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(customerIDLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
-                    .addComponent(customerIDSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 15, Short.MAX_VALUE)
-                .addComponent(makeOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(info)
+                .addGap(6, 6, 6))
         );
 
         pack();
@@ -246,43 +330,177 @@ public class CustomerUI extends javax.swing.JFrame {
 
     private void makeOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeOrderActionPerformed
         // TODO add your handling code here:
+        if(menuItem!=null&&name!=null){
+            
+            Object[] options = {"Yes", "No"};
+                    int n = JOptionPane.showOptionDialog(null, "Confirm order?", null, JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+                    if(n == JOptionPane.YES_OPTION){
+                        try {
+                            copyFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv",
+                            "C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/order list.csv");
+                            copyFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv",
+                            "C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
+                            clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv");
+                            clearOrderDetails();
+                        } catch (IOException ex) {} 
+                    }
+           
+        }
+        else{
+           info.setForeground(Color.red);
+           info.setText("Select Order ID or enter customer ID"); 
+        }
     }//GEN-LAST:event_makeOrderActionPerformed
-
-    private void discountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discountActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_discountActionPerformed
-
-    private void customerMenuSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerMenuSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_customerMenuSearchActionPerformed
 
     private void categoryStartersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryStartersActionPerformed
         // TODO add your handling code here:
+        populateTable("Starters");
     }//GEN-LAST:event_categoryStartersActionPerformed
 
     private void categoryMainCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryMainCourseActionPerformed
         // TODO add your handling code here:
+        populateTable("Main Course");
     }//GEN-LAST:event_categoryMainCourseActionPerformed
 
     private void categoryDessertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryDessertActionPerformed
         // TODO add your handling code here:
+        populateTable("Desserts");
     }//GEN-LAST:event_categoryDessertActionPerformed
 
     private void categoryDrinksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryDrinksActionPerformed
         // TODO add your handling code here:
+        populateTable("Drinks");
     }//GEN-LAST:event_categoryDrinksActionPerformed
 
-    private void categoryOtherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryOtherActionPerformed
+    public void clearOrderDetails(){
+        totalCost.setText("");
+                discount.setText("");
+                info.setForeground(Color.black);
+                info.setText("Select category and select order ID");
+                customerMenuSearch.setText("");
+                menuItem = null;
+                name = null;
+                resetDiscount();
+                customerLabel.setText("Wecome ");
+                customerIDField.setText("");
+                displayOrder.setText("");
+    }
+    
+    private void menuItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuItemsMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_categoryOtherActionPerformed
 
-    private void customerIDSelectorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customerIDSelectorActionPerformed
+        int row = menuItems.rowAtPoint(evt.getPoint());
+        int col = menuItems.columnAtPoint(evt.getPoint());
+        if (row >= 0 && col >= 0) {
+            menuItems.getValueAt(row, col).toString();
+            menuItem = menu.searchID(menuItems.getValueAt(row, col).toString());
+            if(menuItem!=null&&name!=null){
+                displayOrder.append(menuItem.getItem()+"\t"+menuItem.getCost()+"\n");
+                String order = name.getId()+","+menuItem.getId()+","+menuItem.getItem()+","+menuItem.getCost()+","+ df.format(date)+"\n";
+                orderList.writeToFile("temp.csv", order);
+                totalCost(menuItem.getCost());
+                totalCost.setText(String.valueOf(cost));
+                discount.setText(String.valueOf(discount()));
+                info.setForeground(Color.black);
+                info.setText("Select category and select order ID");
+            }
+            else{
+                info.setForeground(Color.red);
+                info.setText("Select Order ID or enter customer ID");
+            }
+        }
+    }//GEN-LAST:event_menuItemsMouseClicked
+
+    public void copyFile(String file, String copy) throws IOException {
+            BufferedReader inputStream = new BufferedReader(new FileReader(file));
+            File UIFile = new File(copy);
+            FileWriter filewriter = new FileWriter(UIFile.getAbsoluteFile(),true);
+            BufferedWriter outputStream= new BufferedWriter(filewriter);
+            String count;
+                while ((count = inputStream.readLine()) != null) {
+                    outputStream.write(count+"\n");
+                    }
+           outputStream.flush();
+           outputStream.close();
+           inputStream.close();
+    }
+    
+    private void clearFile(String file) throws FileNotFoundException{
+        PrintWriter writer = new PrintWriter(file);
+                            writer.print("");
+                            writer.close();
+    }
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_customerIDSelectorActionPerformed
+        info.setForeground(Color.black);
+        info.setText("Select category and select order ID");
+        if(!customerMenuSearch.getText().trim().isEmpty()){
+        MenuItem m = menu.searchItem(customerMenuSearch.getText().trim());
+            if(m!=null){
+                model.setRowCount(0);
+                Object rowData[] = new Object[4];
+                rowData[0] = m.getCategory();
+                rowData[1] = m.getItem();
+                rowData[2] = m.getCost();
+                rowData[3] = m.getId();
+                model.addRow(rowData);
+        }
+            else{
+                info.setForeground(Color.red);
+                info.setText("Item not found");
+        }
+        }
+        else{
+            info.setForeground(Color.red);
+            info.setText("Input item");
+        }
+    }//GEN-LAST:event_searchActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void searchCustomerIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCustomerIDActionPerformed
+        // TODO add your handling code here:
+        if(!customerIDField.getText().trim().isEmpty()&&validateNumber(customerIDField.getText().trim())){
+            if(customer.searchID(Integer.parseInt(customerIDField.getText().trim()))!=null){
+                name = customer.searchID(Integer.parseInt(customerIDField.getText().trim()));
+                customerLabel.setForeground(Color.black);
+                customerLabel.setText("Wecome "+name.getName());
+            }
+            else{
+                customerLabel.setForeground(Color.red);
+                customerLabel.setText("ID not valid");
+            }
+        }
+        else{
+            customerLabel.setForeground(Color.red);
+            customerLabel.setText("Enter proper customer ID");
+        }
+    }//GEN-LAST:event_searchCustomerIDActionPerformed
+
+    private boolean validateNumber(String s) {
+        Scanner scanner = new Scanner(s);
+        int number;
+            do {
+                while (!scanner.hasNextInt()) {
+                scanner.next();
+                return false;
+                }
+            number = scanner.nextInt();
+                } while (number < 0);
+            return true;
+    }
+    
+    private double totalCost(double cost){ 
+        return this.cost += cost;
+    }
+    
+    private double discount(){
+        if(cost >= 100.00){
+            return cost-(0.2*cost);
+        }
+        return 0.0;
+    }
+    
+
     public void showGUI() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -321,17 +539,22 @@ public class CustomerUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton categoryDessert;
     private javax.swing.JRadioButton categoryDrinks;
     private javax.swing.JRadioButton categoryMainCourse;
-    private javax.swing.JRadioButton categoryOther;
     private javax.swing.JRadioButton categoryStarters;
-    private javax.swing.JLabel customerIDLabel;
-    private javax.swing.JComboBox<String> customerIDSelector;
+    private javax.swing.JTextField customerIDField;
+    private javax.swing.JLabel customerLabel;
     private javax.swing.JTextField customerMenuSearch;
     private javax.swing.JLabel customerMenuSearchLabel;
     private javax.swing.JScrollPane customerUIScrollPane;
     private javax.swing.JTextField discount;
     private javax.swing.JLabel discountLabel;
+    private javax.swing.JTextArea displayOrder;
+    private javax.swing.JLabel info;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton makeOrder;
     private javax.swing.JTable menuItems;
+    private javax.swing.JButton search;
+    private javax.swing.JButton searchCustomerID;
     private javax.swing.JTextField totalCost;
     private javax.swing.JLabel totalCostLabel;
     // End of variables declaration//GEN-END:variables

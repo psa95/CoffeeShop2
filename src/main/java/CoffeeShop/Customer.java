@@ -1,3 +1,4 @@
+
 package CoffeeShop;
 
 import java.io.File;
@@ -7,8 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class Customer {
-
+class Customer{
+    
   private ArrayList<Name> name;
   
   public Customer(){
@@ -40,17 +41,7 @@ class Customer {
     public Name searchCustomerName(String name){
               for (Name n : this.name)
               {       
-                  if (n.getfirstName().equals(name)||n.getlastName().equals(name)){
-                      return n;
-                  }
-                  
-              }      return null;    
-          }
-    
-    public Name searchLastName(String lname){
-              for (Name n : name)
-              {       
-                  if (n.getlastName().equals(lname)){
+                  if (n.getfirstName().equalsIgnoreCase(name)||n.getlastName().equalsIgnoreCase(name)){
                       return n;
                   }
                   
@@ -66,6 +57,14 @@ class Customer {
 		}
 		return list;
 	}
+    
+    public ArrayList getCustomers(){
+            ArrayList<Name>report = new ArrayList();
+              for (Name n : name)
+              {
+                  report.add(n);   
+              }      return report;    
+          }
     
     public static void writeToFile(String filename, String Customer) {
         FileWriter fw;
@@ -115,15 +114,4 @@ class Customer {
                 System.exit(0);    
             }  
         }
-
-//     public void showAllCustomer(Customer[] customers) {
-
-//         for (int i = 0 ; i < customers.length; i++){
-//             System.out.println("Customer ID: " + customers[i].customerID + " Name: " + customers[i].name + " Email Address: " + customers[i].emailaddress
-//                     + " Discounts Earned: " + customers[i].discountearned + " Total Orders: " + customers[i].totalorders);
-//         }
-
-//     }
-
-
 }

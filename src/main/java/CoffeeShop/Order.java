@@ -1,12 +1,5 @@
 
-
 package CoffeeShop;
-
-/**
- *
- * @author Dare Adewoye
- */
-
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,7 +26,7 @@ class Order{
         df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         
         menu = new Menu();
-        menu.readMenuFile("data1.csv");  
+        menu.readMenuFile("menu.csv");  
         if(menu.searchID(itemId)!= null&&customer.searchID(customerId)!=null){
          this.menuId = itemId;
          this.customerId = customerId;
@@ -62,11 +55,9 @@ class Order{
     }
     
     public String toString(){    
-    return customerId + " " + menuId + " " + item + " " + cost + " " + df.format(date);
+    return customerId + "\t" + menuId + "\t" + item + "\t" + cost + "\t" + df.format(date);
     }
     
     
     }
-
-
 

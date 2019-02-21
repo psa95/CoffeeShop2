@@ -99,7 +99,8 @@ class Customer{
     
     public void readCustomerFile(String filename) {
             try {
-                File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
+                //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
+                File f = new File(System.getProperty("user.dir")+"\\resources\\"+filename);
                 //File f = new File(filename);
                 Scanner scanner = new Scanner(f);    
                 while (scanner.hasNextLine()) { 

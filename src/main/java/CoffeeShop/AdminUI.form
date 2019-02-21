@@ -2,7 +2,7 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Admin"/>
     <Property name="name" type="java.lang.String" value="AdminUI" noResource="true"/>
     <Property name="resizable" type="boolean" value="false"/>
@@ -26,10 +26,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <Component id="adminTabs" min="-2" pref="650" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
+          <Component id="adminTabs" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -76,6 +73,8 @@
                                       <Component id="categoryDessert" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="categoryDrinks" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="allMenu" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
@@ -103,7 +102,7 @@
                                   <Component id="newCost" alignment="0" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="0" pref="36" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="130" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="jLabel3" max="32767" attributes="0"/>
                               </Group>
@@ -129,6 +128,7 @@
                           <Component id="categoryStarters" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="categoryDessert" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="categoryDrinks" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="allMenu" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -316,6 +316,14 @@
                 <Property name="text" type="java.lang.String" value="Enter new item cost"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JRadioButton" name="allMenu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="All"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="allMenuActionPerformed"/>
+              </Events>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="customerTab">
@@ -333,15 +341,21 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="adminCustomerSearchLabel" pref="53" max="32767" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="adminCustomerSearchLabel" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="searchSales" min="-2" pref="415" max="-2" attributes="0"/>
+                              <Component id="searchSales" min="-2" pref="164" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="viewCustomerOrderHistory" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="viewCustomers" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="viewOrders" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="viewAll" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -355,6 +369,9 @@
                           <Component id="searchSales" alignment="3" min="-2" pref="28" max="-2" attributes="0"/>
                           <Component id="adminCustomerSearchLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="viewCustomerOrderHistory" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="viewCustomers" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="viewOrders" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="viewAll" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="362" max="-2" attributes="0"/>
@@ -375,7 +392,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="viewCustomerOrderHistory">
               <Properties>
-                <Property name="text" type="java.lang.String" value="View Order History"/>
+                <Property name="text" type="java.lang.String" value="Search Item history"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewCustomerOrderHistoryActionPerformed"/>
@@ -401,6 +418,30 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="info"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="viewCustomers">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="View Customers"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewCustomersActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="viewOrders">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="View Orders"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewOrdersActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="viewAll">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="View All"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="viewAllActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

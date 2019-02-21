@@ -90,12 +90,13 @@ class Menu {
               }      return report;    
           }
     
-    public String listAllNames()
+    public ArrayList listAllNames()
 	{
-            String separator = System.getProperty("line.separator");
-		String list = "MENU"+separator;
-                list = menuItem.stream().map((i) -> i.toString()).reduce(list, String::concat);
-		return list;
+            ArrayList<MenuItem>report = new ArrayList();
+            menuItem.stream().forEach((m) -> {
+                report.add(m);
+        });
+		return report;
 	}
     
     public ArrayList getList(){
@@ -109,7 +110,8 @@ class Menu {
     public static void writeToFile(String filename, String Menu) {
         FileWriter fw;
         try {
-            fw = new FileWriter("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
+            //fw = new FileWriter("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
+            fw = new FileWriter(System.getProperty("user.dir")+"\\resources\\"+filename);
             fw.write(Menu);
             fw.close();
             }
@@ -141,7 +143,8 @@ class Menu {
     public void readMenuFile(String filename) {
             try {
                 
-                File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
+                //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
+                File f = new File(System.getProperty("user.dir")+"\\resources\\"+filename);
                 //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/data1.csv");
                 
                 Scanner scanner = new Scanner(f);    
@@ -153,7 +156,7 @@ class Menu {
                 }   
             } 
             catch (FileNotFoundException fnf){     
-                System.out.println(filename + " not found ");     
+                System.out.println(filename + " not found in Menu class");     
                 System.exit(0);    
             }  
         }

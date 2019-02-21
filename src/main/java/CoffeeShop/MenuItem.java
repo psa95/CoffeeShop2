@@ -54,9 +54,4 @@ class MenuItem {
     public String toString(){
         return "Category: "+ this.category + "\tItem: " + this.item + "\t\tCost: " + this.cost + "\tId: " + this.id + "\n";
     }
-
-    public void Dessert(String category, String item, Float cost, Integer id) {
-        //TODO: Implement Dessert Method
-    }
-
 }

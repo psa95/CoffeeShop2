@@ -53,10 +53,10 @@ public class CustomerUI extends javax.swing.JFrame {
         group.add(categoryMainCourse);
         group.add(categoryStarters);
         resetDiscount();
-        try {
-            //clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
-            clearFile(System.getProperty("user.dir")+"\\resources\\Current order.csv");
-        } catch (FileNotFoundException ex) {}
+//        try {
+//            //clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
+//            clearFile(System.getProperty("user.dir")+"\\resources\\Current order.csv");
+//        } catch (FileNotFoundException ex) {}
     }
     
     private void resetDiscount(){
@@ -435,10 +435,11 @@ public class CustomerUI extends javax.swing.JFrame {
     }
     
     private void clearFile(String file) throws FileNotFoundException{
-        PrintWriter writer = new PrintWriter(file);
-                            writer.print("");
-                            writer.close();
+        try (PrintWriter writer = new PrintWriter(file)) {
+            //writer.print("");
+        }
     }
+    
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
         // TODO add your handling code here:
         info.setForeground(Color.black);

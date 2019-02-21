@@ -1,8 +1,9 @@
 
 package CoffeeShop;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 
 public class CoffeeShopGUI extends javax.swing.JFrame {
 
@@ -11,6 +12,15 @@ public class CoffeeShopGUI extends javax.swing.JFrame {
      */
     public CoffeeShopGUI() {
         initComponents();
+        try {
+            //clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
+            makeFile(System.getProperty("user.dir")+"\\resources\\Current order.csv");
+        } catch (FileNotFoundException ex) {}
+    }
+    
+    private void makeFile(String file) throws FileNotFoundException{
+        try (PrintWriter writer = new PrintWriter(file)) {
+        }
     }
 
     /**
@@ -26,20 +36,6 @@ public class CoffeeShopGUI extends javax.swing.JFrame {
         Customer = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        // setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        // // Now we open the report
-        // addWindowListener(new WindowAdapter() {
-
-        //     @Override
-        //     public void windowClosing(WindowEvent e){
-        //         new ReportUI().showGUI();
-        //     }
-
-        // });
-        
-
         setTitle("Coffee Shop Manager");
         setName("CoffeeShopGUI"); // NOI18N
         setResizable(false);
@@ -85,13 +81,11 @@ public class CoffeeShopGUI extends javax.swing.JFrame {
     private void AdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminActionPerformed
         // TODO add your handling code here:
         new AdminUI().showGUI();
-        setVisible(false);
     }//GEN-LAST:event_AdminActionPerformed
 
     private void CustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomerActionPerformed
         // TODO add your handling code here:
         new CustomerUI().showGUI();
-        setVisible(false);
     }//GEN-LAST:event_CustomerActionPerformed
 
     /**

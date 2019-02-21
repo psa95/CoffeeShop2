@@ -54,8 +54,8 @@ class OrderList{
     
     public String list(){
         String report = "";
-        cost=0;
         for (int i : customerKeyMap.keySet()) {
+            cost=0;
             report += "Customer Id: "+i+"\n";
         //System.out.println("Current key: " + i); //Optional for better understanding
             for (Order o : customerKeyMap.get(i)) {
@@ -186,7 +186,7 @@ class OrderList{
         FileWriter fw;
         try {
             //fw = new FileWriter("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename, true);
-            fw = new FileWriter(System.getProperty("user.dir")+"\\resources\\"+filename);
+            fw = new FileWriter(System.getProperty("user.dir")+"\\resources\\"+filename,true);
             fw.write(Menu);
             fw.close();
             }

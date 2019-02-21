@@ -23,7 +23,7 @@ class OrderList{
     private Order order;
     private String orderId;
     private Customer customer;
-    private Map <Integer, ArrayList<Order>> customerKeyMap;
+    private HashMap <Integer, ArrayList<Order>> customerKeyMap;
     
     public OrderList(){
         customer = new Customer();
@@ -52,15 +52,26 @@ class OrderList{
         return customerKeyMap.containsKey(id) ? customerKeyMap.get(id) : new ArrayList<>(); 
     }
     
-    public void list(){
-        customerKeyMap.keySet().stream().map((i) -> {
-            System.out.println("Current key: " + i);
-            return i;
-        }).forEach((i) -> {
-            customerKeyMap.get(i).stream().forEach((order) -> {
-                System.out.println(order.toString());
-            });
- });
+    public String list(){
+        String report = "";
+        cost=0;
+        for (int i : customerKeyMap.keySet()) {
+            report += "Customer Id: "+i+"\n";
+        //System.out.println("Current key: " + i); //Optional for better understanding
+            for (Order o : customerKeyMap.get(i)) {
+                //System.out.println(o.toString());
+                cost += o.getCost();
+                report += o.toString()+"\n";
+            }   report+="Total order: "+getCost()+"\t 20% Discounted cost: "+ discount()+"\n\n";
+    }
+        return report;
+    }
+    
+    private double discount(){
+        if(cost >= 100.00){
+            return cost-(0.2*cost);
+        }
+        return 0.0;
     }
 
     public boolean containsKey(int id) {
@@ -82,6 +93,7 @@ class OrderList{
     
     public String getSalesByCustomer(int id){
         String report = "";
+        cost=0;
         for(Entry<Integer,ArrayList<Order>> entry: customerKeyMap.entrySet()){
                 int key = entry.getKey();    
                 if(id == entry.getKey())
@@ -154,7 +166,8 @@ class OrderList{
         //clearMap();
             try {
                 
-                File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename); 
+                //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
+                File f = new File(System.getProperty("user.dir")+"\\resources\\"+filename);
                 Scanner scanner = new Scanner(f);    
                 while (scanner.hasNextLine()) { 
                     String inputLine = scanner.nextLine(); 
@@ -172,7 +185,8 @@ class OrderList{
     public void writeToFile(String filename, String Menu) {
         FileWriter fw;
         try {
-            fw = new FileWriter("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename, true);
+            //fw = new FileWriter("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename, true);
+            fw = new FileWriter(System.getProperty("user.dir")+"\\resources\\"+filename);
             fw.write(Menu);
             fw.close();
             }
@@ -187,5 +201,10 @@ class OrderList{
 		    System.exit(1);
 		 }
 	}
-            
+    
+    public static void main(String[] args) {
+       OrderList o = new OrderList();
+       o.readOrderFile("order list.csv");
+       System.out.println(o.list());
+    }
 }

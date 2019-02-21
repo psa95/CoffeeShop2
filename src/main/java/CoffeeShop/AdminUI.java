@@ -2,6 +2,7 @@
 package CoffeeShop;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class AdminUI extends javax.swing.JFrame {
         group.add(categoryDrinks);
         group.add(categoryMainCourse);
         group.add(categoryStarters);
+        group.add(allMenu);
         orderList.readOrderFile("order list.csv");
         display.setText("Customer\t"+"Menu Id\t"+"Item\t"+"Cost\t"+"Date\t\n"+orderList.getTotalSales()+"\n\nTotal Sales: "+orderList.getCost());
     }
@@ -103,6 +105,7 @@ public class AdminUI extends javax.swing.JFrame {
         newCost = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        allMenu = new javax.swing.JRadioButton();
         customerTab = new javax.swing.JPanel();
         adminCustomerSearchLabel = new javax.swing.JLabel();
         searchSales = new javax.swing.JTextField();
@@ -110,8 +113,11 @@ public class AdminUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         display = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
+        viewCustomers = new javax.swing.JButton();
+        viewOrders = new javax.swing.JButton();
+        viewAll = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Admin");
         setName("AdminUI"); // NOI18N
         setResizable(false);
@@ -217,6 +223,13 @@ public class AdminUI extends javax.swing.JFrame {
 
         jLabel3.setText("Enter new item cost");
 
+        allMenu.setText("All");
+        allMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allMenuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout menuTabLayout = new javax.swing.GroupLayout(menuTab);
         menuTab.setLayout(menuTabLayout);
         menuTabLayout.setHorizontalGroup(
@@ -238,6 +251,8 @@ public class AdminUI extends javax.swing.JFrame {
                                 .addComponent(categoryDessert)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(categoryDrinks)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(allMenu)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(menuTabLayout.createSequentialGroup()
                                 .addComponent(menuSearch)
@@ -259,7 +274,7 @@ public class AdminUI extends javax.swing.JFrame {
                             .addComponent(newCost)
                             .addGroup(menuTabLayout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addGap(0, 36, Short.MAX_VALUE))
+                                .addGap(0, 130, Short.MAX_VALUE))
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -277,7 +292,8 @@ public class AdminUI extends javax.swing.JFrame {
                     .addComponent(categoryMainCourse)
                     .addComponent(categoryStarters)
                     .addComponent(categoryDessert)
-                    .addComponent(categoryDrinks))
+                    .addComponent(categoryDrinks)
+                    .addComponent(allMenu))
                 .addGap(9, 9, 9)
                 .addGroup(menuTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(menuScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -303,7 +319,7 @@ public class AdminUI extends javax.swing.JFrame {
 
         adminCustomerSearchLabel.setText("Search");
 
-        viewCustomerOrderHistory.setText("View Order History");
+        viewCustomerOrderHistory.setText("Search Item history");
         viewCustomerOrderHistory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 viewCustomerOrderHistoryActionPerformed(evt);
@@ -317,6 +333,27 @@ public class AdminUI extends javax.swing.JFrame {
 
         jLabel1.setText("info");
 
+        viewCustomers.setText("View Customers");
+        viewCustomers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewCustomersActionPerformed(evt);
+            }
+        });
+
+        viewOrders.setText("View Orders");
+        viewOrders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewOrdersActionPerformed(evt);
+            }
+        });
+
+        viewAll.setText("View All");
+        viewAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewAllActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout customerTabLayout = new javax.swing.GroupLayout(customerTab);
         customerTab.setLayout(customerTabLayout);
         customerTabLayout.setHorizontalGroup(
@@ -324,14 +361,20 @@ public class AdminUI extends javax.swing.JFrame {
             .addGroup(customerTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(customerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(customerTabLayout.createSequentialGroup()
-                        .addComponent(adminCustomerSearchLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, customerTabLayout.createSequentialGroup()
+                        .addComponent(adminCustomerSearchLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchSales, javax.swing.GroupLayout.PREFERRED_SIZE, 415, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchSales, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(viewCustomerOrderHistory))
-                    .addComponent(jScrollPane1)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(viewCustomerOrderHistory)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(viewCustomers)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(viewOrders)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(viewAll, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         customerTabLayout.setVerticalGroup(
@@ -341,7 +384,10 @@ public class AdminUI extends javax.swing.JFrame {
                 .addGroup(customerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchSales, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(adminCustomerSearchLabel)
-                    .addComponent(viewCustomerOrderHistory))
+                    .addComponent(viewCustomerOrderHistory)
+                    .addComponent(viewCustomers)
+                    .addComponent(viewOrders)
+                    .addComponent(viewAll))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -355,9 +401,7 @@ public class AdminUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(adminTabs, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(adminTabs)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,7 +485,8 @@ public class AdminUI extends javax.swing.JFrame {
         FileWriter writer;
         try {
             // TODO add your handling code here:
-            writer = new FileWriter("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/menu.csv");
+            //writer = new FileWriter("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/menu.csv");
+            writer = new FileWriter(System.getProperty("user.dir")+"\\resources\\menu.csv");
             menuList = menu.getList();
             for (MenuItem i : menuList){
                 writer.write(i.getCategory()+","+i.getItem()+","+i.getCost()+","+i.getId()+"\n");
@@ -524,7 +569,63 @@ public class AdminUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_viewCustomerOrderHistoryActionPerformed
 
+    private void viewCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewCustomersActionPerformed
+        // TODO add your handling code here:
+        display.setText(customer.listAllCustomers());
+        //display.setText("Customer\t"+"Menu Id\t"+"Item\t"+"Cost\t"+"Date\t\n"+orderList.getTotalSales()+"\n\nTotal Sales: "+orderList.getCost());
+    }//GEN-LAST:event_viewCustomersActionPerformed
 
+    private void allMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allMenuActionPerformed
+        // TODO add your handling code here:
+        model.setRowCount(0);
+        menuList = menu.listAllNames();
+        Object rowData[] = new Object[4];
+        menuList.stream().map((list1) -> {
+            rowData[0] = list1.getCategory();
+            return list1;
+        }).map((list1) -> {
+            rowData[1] = list1.getItem();
+            return list1;
+        }).map((list1) -> {
+            rowData[2] = list1.getCost();
+            return list1;
+        }).map((list1) -> {
+            rowData[3] = list1.getId();
+            return list1;
+        }).forEach((_item) -> {
+            model.addRow(rowData);
+        });      
+    }//GEN-LAST:event_allMenuActionPerformed
+
+    private void viewOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewOrdersActionPerformed
+        // TODO add your handling code here:
+        display.setText(orderList.list());
+    }//GEN-LAST:event_viewOrdersActionPerformed
+
+    private void viewAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewAllActionPerformed
+        // TODO add your handling code here:
+        display.setText("Customer\t"+"Menu Id\t"+"Item\t"+"Cost\t"+"Date\t\n"+orderList.getTotalSales()+"\n\nTotal Sales: "+orderList.getCost());
+    }//GEN-LAST:event_viewAllActionPerformed
+
+    private void writeReport(String filename, String report){
+      FileWriter fw;
+        try {
+            fw = new FileWriter(System.getProperty("user.dir")+"\\resources\\"+filename);
+            fw.write(report);
+            fw.close();
+            }
+		 //message and stop if file not found
+		 catch (FileNotFoundException fnf){
+			 System.out.println(filename + " not found ");
+			 System.exit(0);
+		 }
+		 //stack trace here because we don't expect to come here
+		 catch (IOException ioe){
+		    ioe.printStackTrace();
+		    System.exit(1);
+		 }
+    }
+    
     public void showGUI() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -564,6 +665,7 @@ public class AdminUI extends javax.swing.JFrame {
     private javax.swing.JButton addMenuItem;
     private javax.swing.JLabel adminCustomerSearchLabel;
     private javax.swing.JTabbedPane adminTabs;
+    private javax.swing.JRadioButton allMenu;
     private javax.swing.JLabel categoriesLabel;
     private javax.swing.JRadioButton categoryDessert;
     private javax.swing.JRadioButton categoryDrinks;
@@ -588,6 +690,9 @@ public class AdminUI extends javax.swing.JFrame {
     private javax.swing.JTextField newItem;
     private javax.swing.JButton search;
     private javax.swing.JTextField searchSales;
+    private javax.swing.JButton viewAll;
     private javax.swing.JButton viewCustomerOrderHistory;
+    private javax.swing.JButton viewCustomers;
+    private javax.swing.JButton viewOrders;
     // End of variables declaration//GEN-END:variables
 }

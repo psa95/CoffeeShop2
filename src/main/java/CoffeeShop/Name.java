@@ -45,7 +45,6 @@ public class Name {
    
    
    public String toString(){
-       return "Id: " +Id+ " , " +lastName + " " + firstName + " " + "\n";}
+       return "Id: " +Id+ "\t " +lastName + "\t" + firstName + "\n";}
   
 } 
-

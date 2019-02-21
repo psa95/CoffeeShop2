@@ -54,7 +54,8 @@ public class CustomerUI extends javax.swing.JFrame {
         group.add(categoryStarters);
         resetDiscount();
         try {
-            clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
+            //clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
+            clearFile(System.getProperty("user.dir")+"\\resources\\Current order.csv");
         } catch (FileNotFoundException ex) {}
     }
     
@@ -122,7 +123,7 @@ public class CustomerUI extends javax.swing.JFrame {
         searchCustomerID = new javax.swing.JButton();
         customerLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Menu");
         setName("CustomerUI"); // NOI18N
         setResizable(false);
@@ -337,11 +338,18 @@ public class CustomerUI extends javax.swing.JFrame {
                     JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
                     if(n == JOptionPane.YES_OPTION){
                         try {
-                            copyFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv",
-                            "C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/order list.csv");
-                            copyFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv",
-                            "C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
-                            clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv");
+//                            copyFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv",
+//                            "C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/order list.csv");
+//                            copyFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv",
+//                            "C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/Current order.csv");
+//                            clearFile("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/temp.csv");
+//                            
+                            
+                            copyFile(System.getProperty("user.dir")+"\\resources\\temp.csv",
+                            System.getProperty("user.dir")+"\\resources\\order list.csv");
+                            copyFile(System.getProperty("user.dir")+"\\resources\\temp.csv",
+                            System.getProperty("user.dir")+"\\resources\\Current order.csv");
+                            clearFile(System.getProperty("user.dir")+"\\resources\\temp.csv");
                             clearOrderDetails();
                         } catch (IOException ex) {} 
                     }

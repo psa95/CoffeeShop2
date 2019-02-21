@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -46,7 +47,8 @@ public class AdminUI extends javax.swing.JFrame {
         group.add(categoryMainCourse);
         group.add(categoryStarters);
         group.add(allMenu);
-        orderList.readOrderFile("order list.csv");
+        //orderList.readOrderFile("order list.csv");
+        orderList.readOrderFile("Current order.csv");
         display.setText("Customer\t"+"Menu Id\t"+"Item\t"+"Cost\t"+"Date\t\n"+orderList.getTotalSales()+"\n\nTotal Sales: "+orderList.getCost());
     }
     

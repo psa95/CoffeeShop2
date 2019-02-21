@@ -201,10 +201,4 @@ class OrderList{
 		    System.exit(1);
 		 }
 	}
-    
-    public static void main(String[] args) {
-       OrderList o = new OrderList();
-       o.readOrderFile("order list.csv");
-       System.out.println(o.list());
-    }
 }

@@ -27,7 +27,7 @@ class OrderList{
     
     public OrderList(){
         customer = new Customer();
-        customer.readCustomerFile("customer list.csv");
+        customer.readCustomerFile("customerList.csv");
         listOrder = new HashMap<>();
         customerKeyMap = new HashMap<>();
     }

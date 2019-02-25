@@ -38,7 +38,7 @@ public class AdminUI extends javax.swing.JFrame {
         menu = new Menu();
         menu.readMenuFile("menu.csv");
         customer = new Customer();
-        customer.readCustomerFile("customer list.csv");
+        customer.readCustomerFile("customerList.csv");
         orderList = new OrderList();
         model = (DefaultTableModel) menuItems.getModel();
         ButtonGroup group = new ButtonGroup();

@@ -42,7 +42,7 @@ public class CustomerUI extends javax.swing.JFrame {
         menu = new Menu();
         menu.readMenuFile("menu.csv");
         customer = new Customer();
-        customer.readCustomerFile("customer list.csv");
+        customer.readCustomerFile("customerList.csv");
         model = (DefaultTableModel) menuItems.getModel();
         ButtonGroup group = new ButtonGroup();
         orderList = new OrderList();
@@ -331,7 +331,7 @@ public class CustomerUI extends javax.swing.JFrame {
 
     private void makeOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeOrderActionPerformed
         // TODO add your handling code here:
-        if(menuItem!=null&&name!=null){
+        if((menuItem != null) && (name != null)){
             
             Object[] options = {"Yes", "No"};
                     int n = JOptionPane.showOptionDialog(null, "Confirm order?", null, JOptionPane.YES_NO_CANCEL_OPTION,

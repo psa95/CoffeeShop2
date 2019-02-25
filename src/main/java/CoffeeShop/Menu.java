@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -140,24 +141,30 @@ class Menu {
 
 	}
     
-    public void readMenuFile(String filename) {
-            try {
+    public void readMenuFile(String fileName) {
+            
+        try {
                 
                 //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
-                File f = new File(System.getProperty("user.dir")+"\\resources\\"+filename);
+                //File f = new File(System.getProperty("user.dir")+"\\resources\\"+filename);
                 //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/data1.csv");
                 
-                Scanner scanner = new Scanner(f);    
+                ClassLoader classLoader = new Menu().getClass().getClassLoader();
+                File file = new File(classLoader.getResource(fileName).toURI());
+                
+                Scanner scanner = new Scanner(file);    
                 while (scanner.hasNextLine()) { 
                     String inputLine = scanner.nextLine(); 
                     if (inputLine.length() != 0) {
-                    processMenuLine(inputLine);     
+                    processMenuLine(inputLine);
                     }    
-                }   
-            } 
-            catch (FileNotFoundException fnf){     
-                System.out.println(filename + " not found in Menu class");     
+                }
+                scanner.close();
+
+            } catch (IOException | URISyntaxException e){
+                System.out.println(fileName + " not found in Menu class");     
                 System.exit(0);    
-            }  
+            }
+
         }
 }

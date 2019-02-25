@@ -21,7 +21,7 @@ class Order{
     public Order(int customerId, String itemId, String item, double cost, String date){
         
         customer = new Customer();
-        customer.readCustomerFile("customer list.csv");
+        customer.readCustomerFile("customerList.csv");
         
         df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         

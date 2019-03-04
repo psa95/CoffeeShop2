@@ -50,8 +50,20 @@ public class CoffeeShopModel{
       }
 
       /**
-       * 
+       * Create a temporary file to store fresh orders.
+       * This needs to be thread-safe.
        */
+      public synchronized void writeCurrentOrder(ArrayList<?> order){
+
+      }
+
+      /**
+       * Generate all current orders for the report.
+       * @return ArrayList
+       */
+      public ArrayList<?> generateReport(){
+          return new ArrayList();
+      }
 
 
 }

@@ -34,5 +34,10 @@ jar {
     }
 }
 
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
+
 // Define the main class for the application
 mainClassName = 'CoffeeShop.CoffeeShopManager'

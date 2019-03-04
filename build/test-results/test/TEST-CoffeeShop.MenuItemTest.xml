@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="CoffeeShop.MenuItemTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-03-04T14:54:03" hostname="jerubbaal.local" time="0.002">
+  <properties/>
+  <testcase name="testInvalidCategory" classname="CoffeeShop.MenuItemTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -75,7 +75,8 @@ class Menu {
                       return i;
                   }
                   
-              }      return null;    
+              }
+              return null;
           }
     
     public ArrayList searchCategory(String category){

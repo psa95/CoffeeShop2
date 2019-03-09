@@ -4,5 +4,9 @@
 # Ignore vscode settings
 .vscode
 
+# Ignore build dir
+build
+!build/docs
+
 # Ignore class files
 *.class

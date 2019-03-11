@@ -1,12 +1,13 @@
 # Ignore Gradle project-specific cache directory
-.gradle
+.gradle/*
 
 # Ignore vscode settings
 .vscode
 
 # Ignore build dir
-build
+build/*
 !build/docs
+!build/libs
 
 # Ignore class files
 *.class

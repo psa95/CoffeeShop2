@@ -14,19 +14,18 @@ class Customer{
   private ArrayList<Name> name;
   
   public Customer(){
-      
       name = new ArrayList();
   }
   
-  public boolean addCustomer(Name n) {   
-           int id = n.getId();
-           Name inList = this.searchID(id);  
-                    if (inList == null) {   
-                    name.add(n);
-                      return true;  
-                    }  
-                    return false;
-           }
+    public boolean addCustomer(Name n) {   
+            int id = n.getId();
+            Name inList = this.searchID(id);  
+            if (inList == null) {   
+                name.add(n);
+                return true;  
+            }  
+        return false;
+    }
     
     public Name searchID(int id){
               for (Name i : name)
@@ -60,11 +59,12 @@ class Customer{
 	}
     
     public ArrayList getCustomers(){
-            ArrayList<Name>report = new ArrayList();
+            ArrayList<Name> report = new ArrayList();
               for (Name n : name)
               {
                   report.add(n);   
-              }      return report;    
+              }
+              return report;    
           }
     
     public static void writeToFile(String filename, String Customer) {
@@ -89,19 +89,19 @@ class Customer{
     private void processMenuLine(String line) {
         
 			String parts [] = line.split(",");
-                        String firstName = parts[0];
-                        String lastName = parts[1];
-                        int id = Integer.parseInt(parts[2]);
-                        
-                        Name name = new Name(firstName,lastName,id);
-                        this.addCustomer(name);
+            String firstName = parts[0];
+            String lastName = parts[1];
+            int id = Integer.parseInt(parts[2]);
+            
+            Name name = new Name(firstName,lastName,id);
+            this.addCustomer(name);
 
 	}
     
     public void readCustomerFile(String fileName) {
             try {
                 //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
-                //File f = new File(System.getProperty("user.dir")+"\\resources\\"+filename);
+                // File file = new File(System.getProperty("user.dir")+File.separator+"data"+File.separator+fileName);
                 //File f = new File(filename);
 
                 ClassLoader classLoader = new Menu().getClass().getClassLoader();
@@ -119,7 +119,7 @@ class Customer{
             } 
             catch (IOException | URISyntaxException nf){     
                 System.out.println(fileName + " not found ");     
-                System.exit(0);    
+                System.exit(0);
             }  
         }
 }

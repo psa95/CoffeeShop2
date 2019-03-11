@@ -75,7 +75,8 @@ class Menu {
                       return i;
                   }
                   
-              }      return null;    
+              }
+              return null;
           }
     
     public ArrayList searchCategory(String category){
@@ -131,13 +132,13 @@ class Menu {
     private void processMenuLine(String line) {
         
 			String parts [] = line.split(",");
-                        String category = parts[0];
-                        String item = parts[1];
-                        double cost = Double.parseDouble(parts[2]);
-                        String id = parts[3];
-                        
-                        MenuItem menuItem = new MenuItem(category,item,cost,id);
-                        this.addMenuItem(menuItem);
+            String category = parts[0];
+            String item = parts[1];
+            double cost = Double.parseDouble(parts[2]);
+            String id = parts[3];
+            
+            MenuItem menuItem = new MenuItem(category,item,cost,id);
+            this.addMenuItem(menuItem);
 
 	}
     
@@ -146,7 +147,7 @@ class Menu {
         try {
                 
                 //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/"+filename);
-                //File f = new File(System.getProperty("user.dir")+"\\resources\\"+filename);
+                //File file = new File(System.getProperty("user.dir")+File.separator+"data"+File.separator+fileName);
                 //File f = new File("C:/Users/uchea/Desktop/Drive/F21AS/CoffeeShop/resources/data1.csv");
                 
                 ClassLoader classLoader = new Menu().getClass().getClassLoader();

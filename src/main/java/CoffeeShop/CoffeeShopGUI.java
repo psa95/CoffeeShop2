@@ -88,9 +88,7 @@ public class CoffeeShopGUI extends javax.swing.JFrame {
         new CustomerUI().showGUI();
     }//GEN-LAST:event_CustomerActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void showGUI() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

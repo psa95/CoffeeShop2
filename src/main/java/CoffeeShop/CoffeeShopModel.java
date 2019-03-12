@@ -3,7 +3,6 @@ package CoffeeShop;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -17,7 +16,7 @@ import java.util.Scanner;
  * The Model in the MVC of CoffeeShop.
  * Does not need extending, so it's final.
  */
-public final class CoffeeShopModel{
+public final class CoffeeShopModel {
 
     // Temporary files, created and deleted on program exit
     File currentOrders, log;
@@ -122,7 +121,7 @@ public final class CoffeeShopModel{
       * Returns ArrayLits of previous orders.
       */
     public ArrayList<String[]> getPreviousOrders(){
-        return getCSVAsArrays("orederList.csv");
+        return getCSVAsArrays("orderList.csv");
     }
 
     // New orders temporary file
@@ -148,6 +147,8 @@ public final class CoffeeShopModel{
      * @return ArrayList
      */
     public ArrayList<String[]> getOrders(){
+        // TO-DO: Get this to use getCSVAsArrays()
+
         ArrayList<String[]> currentOrders = new ArrayList<>();
         try(Scanner reader = new Scanner(this.currentOrders)){
             while(reader.hasNext()){
@@ -158,6 +159,7 @@ public final class CoffeeShopModel{
             e.printStackTrace();
             return null;
         }
+
     }
 
     /**
@@ -176,6 +178,7 @@ public final class CoffeeShopModel{
      * Read from the log
      */
     public ArrayList<String[]> readLog(){
+        // TO-DO: Get this to use writeArrays()
         ArrayList<String[]> logs = new ArrayList<>();
         try(Scanner reader = new Scanner(this.log)){
             while(reader.hasNext()){

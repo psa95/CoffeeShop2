@@ -42,7 +42,7 @@ public final class CoffeeShopModel {
     /**
      * Open given file and return an array iterator.
      */
-    private ArrayList<String[]> getCSVAsArrays(String fileName){
+    private synchronized ArrayList<String[]> getCSVAsArrays(String fileName){
 
         ClassLoader classLoader = this.getClass().getClassLoader();
         ArrayList<String[]> wholeCSV = new ArrayList<>();
@@ -146,7 +146,7 @@ public final class CoffeeShopModel {
      * Return all current orders.
      * @return ArrayList
      */
-    public ArrayList<String[]> getOrders(){
+    public synchronized ArrayList<String[]> getOrders(){
         // TO-DO: Get this to use getCSVAsArrays()
 
         ArrayList<String[]> currentOrders = new ArrayList<>();
@@ -177,7 +177,7 @@ public final class CoffeeShopModel {
     /**
      * Read from the log
      */
-    public ArrayList<String[]> readLog(){
+    public synchronized ArrayList<String[]> readLog(){
         // TO-DO: Get this to use writeArrays()
         ArrayList<String[]> logs = new ArrayList<>();
         try(Scanner reader = new Scanner(this.log)){

@@ -19,19 +19,18 @@ import java.util.Scanner;
 public final class CoffeeShopModel {
 
     // Temporary files, created and deleted on program exit
-    File currentOrders, log;
+    File currentOrders = null;
+    File log = new File("log.csv");
 
     public CoffeeShopModel(){
 
         try{
 
             // Initialize the temporary files
-            this.currentOrders = File.createTempFile("currentOrders", "csv");
-            this.log = File.createTempFile("log", "csv");
+            this.currentOrders = File.createTempFile("currentOrders", null);
 
             // Set them to delete on program exit
             this.currentOrders.deleteOnExit();
-            this.log.deleteOnExit();
 
         } catch(IOException e){
             e.printStackTrace();
@@ -78,12 +77,14 @@ public final class CoffeeShopModel {
      * This needs to be thread-safe.
      * This locks the entire instance when run
      */
-    private synchronized void writeArrayToCSV(String[] toWrite, String temporaryFileName) throws IOException {
+    private synchronized void writeArrayToCSV(String[] toWrite, String fileName) throws IOException {
         
         FileWriter fileToWriteTo = null;
 
-        switch(temporaryFileName){
-            case "orders":
+        System.out.println(this.currentOrders);
+
+        switch(fileName){
+            case "order":
                 fileToWriteTo = new FileWriter(this.currentOrders, true); // Append mode
                 break;
             case "log":
@@ -134,7 +135,7 @@ public final class CoffeeShopModel {
      * This needs to be thread-safe.
      * Locks entire instance when accessed
      */
-    public void addOrders(String[] order){
+    public void addOrder(String[] order){
         try{
             writeArrayToCSV(order, "order");
         } catch(IOException e){
@@ -165,6 +166,7 @@ public final class CoffeeShopModel {
     /**
      * Write to log (requirement 5)
      * Locks entire instance when accessed
+     * Takes String[]{"time", "string"}
      */
     public void writeToLog(String[] toLog){
         try{
@@ -174,22 +176,23 @@ public final class CoffeeShopModel {
         }
     }
 
-    /**
-     * Read from the log
-     */
-    public synchronized ArrayList<String[]> readLog(){
-        // TO-DO: Get this to use writeArrays()
-        ArrayList<String[]> logs = new ArrayList<>();
-        try(Scanner reader = new Scanner(this.log)){
-            while(reader.hasNext()){
-                logs.add(reader.next().split(","));
-            }
-            return logs;
-        } catch(IOException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
+    // /**
+    //  * Read from the log
+    //  */
+    // public synchronized ArrayList<String[]> readLog(){
+    //     // TO-DO: Get this to use writeArrays()
+    //     ArrayList<String[]> logs = new ArrayList<>();
+    //     try(Scanner reader = new Scanner(this.log)){
+    //         while(reader.hasNext()){
+    //             logs.add(reader.next().split(","));
+    //         }
+    //         return logs;
+    //     } catch(IOException e){
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
+    // Commented out, not required by spec
 
 
 }

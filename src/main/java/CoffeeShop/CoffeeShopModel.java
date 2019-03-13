@@ -3,7 +3,6 @@ package CoffeeShop;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -17,22 +16,21 @@ import java.util.Scanner;
  * The Model in the MVC of CoffeeShop.
  * Does not need extending, so it's final.
  */
-public final class CoffeeShopModel{
+public final class CoffeeShopModel {
 
     // Temporary files, created and deleted on program exit
-    File currentOrders, log;
+    File currentOrders = null;
+    File log = new File("log.csv");
 
     public CoffeeShopModel(){
 
         try{
 
             // Initialize the temporary files
-            this.currentOrders = File.createTempFile("currentOrders", "csv");
-            this.log = File.createTempFile("log", "csv");
+            this.currentOrders = File.createTempFile("currentOrders", null);
 
             // Set them to delete on program exit
             this.currentOrders.deleteOnExit();
-            this.log.deleteOnExit();
 
         } catch(IOException e){
             e.printStackTrace();
@@ -43,7 +41,7 @@ public final class CoffeeShopModel{
     /**
      * Open given file and return an array iterator.
      */
-    private ArrayList<String[]> getCSVAsArrays(String fileName){
+    private synchronized ArrayList<String[]> getCSVAsArrays(String fileName){
 
         ClassLoader classLoader = this.getClass().getClassLoader();
         ArrayList<String[]> wholeCSV = new ArrayList<>();
@@ -79,12 +77,14 @@ public final class CoffeeShopModel{
      * This needs to be thread-safe.
      * This locks the entire instance when run
      */
-    private synchronized void writeArrayToCSV(String[] toWrite, String temporaryFileName) throws IOException {
+    private synchronized void writeArrayToCSV(String[] toWrite, String fileName) throws IOException {
         
         FileWriter fileToWriteTo = null;
 
-        switch(temporaryFileName){
-            case "orders":
+        System.out.println(this.currentOrders);
+
+        switch(fileName){
+            case "order":
                 fileToWriteTo = new FileWriter(this.currentOrders, true); // Append mode
                 break;
             case "log":
@@ -122,7 +122,7 @@ public final class CoffeeShopModel{
       * Returns ArrayLits of previous orders.
       */
     public ArrayList<String[]> getPreviousOrders(){
-        return getCSVAsArrays("orederList.csv");
+        return getCSVAsArrays("orderList.csv");
     }
 
     // New orders temporary file
@@ -135,7 +135,7 @@ public final class CoffeeShopModel{
      * This needs to be thread-safe.
      * Locks entire instance when accessed
      */
-    public void addOrders(String[] order){
+    public void addOrder(String[] order){
         try{
             writeArrayToCSV(order, "order");
         } catch(IOException e){
@@ -147,7 +147,9 @@ public final class CoffeeShopModel{
      * Return all current orders.
      * @return ArrayList
      */
-    public ArrayList<String[]> getOrders(){
+    public synchronized ArrayList<String[]> getOrders(){
+        // TO-DO: Get this to use getCSVAsArrays()
+
         ArrayList<String[]> currentOrders = new ArrayList<>();
         try(Scanner reader = new Scanner(this.currentOrders)){
             while(reader.hasNext()){
@@ -158,11 +160,13 @@ public final class CoffeeShopModel{
             e.printStackTrace();
             return null;
         }
+
     }
 
     /**
      * Write to log (requirement 5)
      * Locks entire instance when accessed
+     * Takes String[]{"time", "string"}
      */
     public void writeToLog(String[] toLog){
         try{
@@ -172,21 +176,23 @@ public final class CoffeeShopModel{
         }
     }
 
-    /**
-     * Read from the log
-     */
-    public ArrayList<String[]> readLog(){
-        ArrayList<String[]> logs = new ArrayList<>();
-        try(Scanner reader = new Scanner(this.log)){
-            while(reader.hasNext()){
-                logs.add(reader.next().split(","));
-            }
-            return logs;
-        } catch(IOException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
+    // /**
+    //  * Read from the log
+    //  */
+    // public synchronized ArrayList<String[]> readLog(){
+    //     // TO-DO: Get this to use writeArrays()
+    //     ArrayList<String[]> logs = new ArrayList<>();
+    //     try(Scanner reader = new Scanner(this.log)){
+    //         while(reader.hasNext()){
+    //             logs.add(reader.next().split(","));
+    //         }
+    //         return logs;
+    //     } catch(IOException e){
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
+    // Commented out, not required by spec
 
 
 }

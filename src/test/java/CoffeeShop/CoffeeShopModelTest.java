@@ -4,6 +4,9 @@ package CoffeeShop;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.nio.file.*;
+
 import java.util.ArrayList;
 
 
@@ -58,8 +61,17 @@ public class CoffeeShopModelTest {
     public void testLog(){
 
         CoffeeShopModel csm = new CoffeeShopModel();
+
         // Can we add a log item?
         csm.writeToLog(new String[]{"time", "log_string"});
+
+        // We're done with the file, lets delete it
+        try{
+            Files.deleteIfExists(Paths.get("log.csv"));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

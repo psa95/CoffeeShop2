@@ -14,15 +14,23 @@ import java.util.Scanner;
 /**
  * Offers data services to the CoffeeShop package.
  * The Model in the MVC of CoffeeShop.
- * Does not need extending, so it's final.
+ * Implements the singleton design pattern using an enum.
  */
-public final class CoffeeShopModel {
+public enum CoffeeShopModel implements ModelInterface {
+
+    /* The Singleton implementation */
+    INSTANCE;
+
+    public static CoffeeShopModel getInstance(){
+        return INSTANCE;
+    }
+    /**************/
 
     // Temporary files, created and deleted on program exit
     File currentOrders = null;
     File log = new File("log.csv");
 
-    public CoffeeShopModel(){
+    private CoffeeShopModel(){
 
         try{
 

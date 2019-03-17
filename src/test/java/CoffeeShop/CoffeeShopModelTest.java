@@ -18,7 +18,7 @@ public class CoffeeShopModelTest {
 
     @Test 
     public void testInstanceCreatedSuccessfully() {
-        new CoffeeShopModel();
+        CoffeeShopModel.getInstance();
     }
 
     /**
@@ -26,17 +26,17 @@ public class CoffeeShopModelTest {
      */
     @Test 
     public void testGetCustomers(){
-        assertTrue(new CoffeeShopModel().getCustomers() instanceof ArrayList<?>);
+        assertTrue(CoffeeShopModel.getInstance().getCustomers() instanceof ArrayList<?>);
     }
 
     @Test 
     public void testGetMenu(){
-        assertTrue(new CoffeeShopModel().getMenu() instanceof ArrayList<?>);
+        assertTrue(CoffeeShopModel.getInstance().getMenu() instanceof ArrayList<?>);
     }
 
     @Test 
     public void testGetPreviousOrders(){
-        assertTrue(new CoffeeShopModel().getPreviousOrders() instanceof ArrayList<?>);
+        assertTrue(CoffeeShopModel.getInstance().getPreviousOrders() instanceof ArrayList<?>);
     }
 
     /**
@@ -47,7 +47,7 @@ public class CoffeeShopModelTest {
     @Test
     public void testTempOrders(){
 
-        CoffeeShopModel csm = new CoffeeShopModel();
+        CoffeeShopModel csm = CoffeeShopModel.getInstance();
 
         // Can we add an order?
         csm.addOrder(new String[]{"user_id", "item_id","item_price"});
@@ -60,7 +60,7 @@ public class CoffeeShopModelTest {
     @Test
     public void testLog(){
 
-        CoffeeShopModel csm = new CoffeeShopModel();
+        CoffeeShopModel csm = CoffeeShopModel.getInstance();
 
         // Can we add a log item?
         csm.writeToLog(new String[]{"time", "log_string"});

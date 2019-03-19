@@ -1,6 +1,7 @@
 
 package CoffeeShop;
 
+import CoffeeShop.Views.CustomerUI;
 import org.junit.Test;
 // import static org.junit.Assert.*;
 

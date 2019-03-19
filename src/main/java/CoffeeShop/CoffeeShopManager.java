@@ -3,6 +3,8 @@
  */
  package CoffeeShop;
 
+import CoffeeShop.Views.CoffeeShopGUI;
+
 public class CoffeeShopManager {
 
     public static void main(String[] args) {

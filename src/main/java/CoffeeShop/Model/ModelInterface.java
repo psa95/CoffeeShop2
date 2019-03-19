@@ -1,5 +1,5 @@
 
-package CoffeeShop;
+package CoffeeShop.Model;
 
 import java.util.ArrayList;
 

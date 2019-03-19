@@ -1,6 +1,8 @@
 
-package CoffeeShop;
+package CoffeeShop.Model;
 
+
+import CoffeeShop.Controllers.Order;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -51,9 +53,10 @@ public enum CoffeeShopModel implements ModelInterface {
      */
     private synchronized ArrayList<String[]> getCSVAsArrays(String fileName){
 
-        ClassLoader classLoader = this.getClass().getClassLoader();
+        //ClassLoader classLoader = this.getClass().getClassLoader();
         ArrayList<String[]> wholeCSV = new ArrayList<>();
-
+        //File file = new File("C:\\Users\\uchea\\Desktop\\Drive\\CoffeeShop2\\src\\main\\resources\\"+fileName);
+        File file = new File(System.getProperty("user.dir")+"\\resources\\"+fileName);
 
         // // For none buildtool on windows
         // String isWindows = System.getProperty("os.name").toLowerCase();
@@ -64,14 +67,17 @@ public enum CoffeeShopModel implements ModelInterface {
         //     // Can someone on windows confirm this is working?
         // }
 
-        try(Scanner inputStream = new Scanner(new File(classLoader.getResource(fileName).toURI()))){
+        //try(Scanner inputStream = new Scanner(new File(classLoader.getResource(fileName).toURI()))){
+        try(Scanner inputStream = new Scanner(file)){
 
             while(inputStream.hasNext())
-                wholeCSV.add(inputStream.next().split(","));
+                
+                wholeCSV.add(inputStream.nextLine().split(","));
             
             return wholeCSV;
 
-        } catch(URISyntaxException | IOException e) {
+        //} catch(URISyntaxException | IOException e) {
+        } catch(IOException e) {
             
             e.printStackTrace();
             return null;
@@ -201,6 +207,5 @@ public enum CoffeeShopModel implements ModelInterface {
     //     }
     // }
     // Commented out, not required by spec
-
 
 }

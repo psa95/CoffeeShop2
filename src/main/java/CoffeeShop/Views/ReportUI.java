@@ -1,5 +1,5 @@
 
-package CoffeeShop;
+package CoffeeShop.Views;
 
 
 public class ReportUI extends javax.swing.JFrame {

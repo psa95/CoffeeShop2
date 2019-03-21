@@ -3,10 +3,12 @@
  */
  package CoffeeShop;
 
+import CoffeeShop.Controller.CoffeeShopController;
+
 public class CoffeeShopManager {
 
     public static void main(String[] args) {
-        new CoffeeShopGUI().showGUI();
+        new CoffeeShopController().showGUI();
     }
 }
 

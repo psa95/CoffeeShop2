@@ -35,6 +35,13 @@ public class ServerController implements Runnable {
 
         }
 
+        public  synchronized  void DisplayWaitingList(){
+            System.out.println("There are currently "+this.totalOrderList.size()+ "waiting in the queue :");
+            for(PendingOrder p : this.totalOrderList){
+                Name customerName = customers.searchID(p.getCustomerID());
+                System.out.println(customerName.getName() + "\t" +p.getNumberOfItems()+" items \n");
+            }
+        }
     public synchronized void PrepareOrder( int customerId, ArrayList<Order> orders) {
         int cost = 0;
         Properties prop = new Properties();
@@ -178,6 +185,7 @@ public class ServerController implements Runnable {
             if(this.isBusy & !this.orderPrepared) {
                 this.readOrderFromFile();
                 this.writeOrderToFile();
+                this.DisplayWaitingList();
                 this.PrepareOrder(this.customerID, this.currentOrderList);
                 this.Clear();
             }

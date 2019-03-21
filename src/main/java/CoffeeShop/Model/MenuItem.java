@@ -1,13 +1,15 @@
-package CoffeeShop;
+package CoffeeShop.Model;
 
-class MenuItem {
+import CoffeeShop.Exceptions.InvalidCategoryException;
+
+public class MenuItem {
 
     private String category;
     private String item;
     private double cost;
     private String id;
 
-    MenuItem(String category, String item, double cost, String id  ) {
+    public MenuItem(String category, String item, double cost, String id  ) {
         if(category.equals("Starters")||category.equals("Main Course")||category.equals("Desserts")||category.equals("Drinks")||category.equals("Other"))
             this.category = category;
         else
@@ -23,24 +25,12 @@ class MenuItem {
         return this.category;
     }
 
-    public void setCategory(String category){
-        this.category = category;
-    }
-
     public String getItem(){
         return this.item;
     }
 
-    public void setItem(String item){
-        this.item = item;
-    }
-
     public double getCost(){
         return this.cost;
-    }
-
-    public void setCost(double cost){
-        this.cost = cost;
     }
 
     public String getId(){

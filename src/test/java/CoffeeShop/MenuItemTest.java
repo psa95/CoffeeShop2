@@ -1,9 +1,9 @@
 
 package CoffeeShop;
 
+import CoffeeShop.Exceptions.InvalidCategoryException;
+import CoffeeShop.Model.MenuItem;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
 
 
 public class MenuItemTest {
